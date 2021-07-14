@@ -1,9 +1,9 @@
 import react from "react"
-
+import Gauth from "./Gauth"
 
 function App() {
   return (
-  <h1>hello</h1>
+ <Gauth></Gauth>
   );
 }
 
