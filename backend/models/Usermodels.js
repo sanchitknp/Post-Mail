@@ -24,6 +24,7 @@ const mailSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+
 const userSchema = mongoose.Schema(
   {
     name: {

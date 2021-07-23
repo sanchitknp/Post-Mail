@@ -1,7 +1,6 @@
 import express from "express";
-
 import asyncHandler from "express-async-handler";
-import passport from "passport";
+import passport from 'passport';
 import AuthController from "../controllers/AuthControllers/Index.js";
 
 const router = express.Router();
@@ -19,3 +18,4 @@ router.post(
 );
 
 export default router;
+
