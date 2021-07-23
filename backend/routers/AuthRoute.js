@@ -1,5 +1,4 @@
 import express from "express";
-import User from "../models/Usermodels.js";
 import asyncHandler from "express-async-handler";
 import passport from 'passport';
 import AuthController from "../controllers/AuthControllers/Index.js";
@@ -11,9 +10,12 @@ router.get("/", (req, res) =>
 );
 
 router.post(
-  "/google",
-  passport.authenticate("google-token", { session: false }),
-  AuthController.googleLogin
+  "/oauth/google",
+  passport.authenticate("google", {
+    scope: ["openid profile https://www.googleapis.com/auth/gmail.send"],
+  }),
+  AuthController.googleOauth
 );
 
-export default router
+export default router;
+
