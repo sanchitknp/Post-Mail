@@ -3,6 +3,11 @@ import Cookie from "js-cookie";
 import { GoogleLogin } from "react-google-login";
 
 const { google } = require("googleapis");
+
+google.options({
+  http2: true,
+});
+
 const oAuth2Client = new google.auth.OAuth2(
   process.env.REACT_APP_GOOGLE_CLIENT_ID,
   process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
