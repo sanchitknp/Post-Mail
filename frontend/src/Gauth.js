@@ -1,21 +1,29 @@
 import axios from "axios";
 import Cookie from "js-cookie";
-import { GoogleLogin } from "react-google-login";
+import {google} from "googleapis";
+import {GoogleLogin} from "react-google-login"
 
-const { google } = require("googleapis");
+google.options({
+  http2: true,
+});
+
 const oAuth2Client = new google.auth.OAuth2(
   process.env.REACT_APP_GOOGLE_CLIENT_ID,
   process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
   "http://localhost:3000"
 );
 
-export const axiosApiCall = (url, method, body = {}) =>
+
+
+export default function Gauth() {
+
+ const axiosApiCall = (url, method, body = {}) =>
   axios({
     method,
     url: `${process.env.REACT_APP_API_BASE_URL}${url}`,
     data: body,
   });
-export default function Gauth() {
+
   const onGoogleSuccess = (response) => {
     const code = response.code;
     const profile = response.googleId;

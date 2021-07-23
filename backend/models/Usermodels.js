@@ -1,4 +1,16 @@
 import mongoose from "mongoose";
+const contactSchema=mongoose.Schema(
+  {
+      name:{
+          type:String,
+          required:true
+      },
+      email:{
+          type:String,
+          required:true
+      }
+  }
+)
 const mailSchema=mongoose.Schema(
     {
         subject:{
@@ -12,18 +24,7 @@ const mailSchema=mongoose.Schema(
         }
     },{timestamps:true}
 )
-const contactSchema=mongoose.Schema(
-    {
-        name:{
-            type:String,
-            required:true
-        },
-        email:{
-            type:String,
-            required:true
-        }
-    }
-)
+
 const userSchema = mongoose.Schema(
     {
       name: {

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import {User} from './models/Usermodels.js';
+import User from '../../models/Usermodels.js';
 
 const AuthController = {
   async googleOauth(req, res) {
