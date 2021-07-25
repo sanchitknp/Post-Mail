@@ -12,6 +12,9 @@ export default function Gauth() {
     const code = response.code
 
     console.log(response)
+    axios.get("/",{data:code})
+    .then((res) => {console.log("hey")})
+    .catch((err) => {console.log(err)})
 
     };
   const onGoogleFailure = () => {
@@ -32,7 +35,7 @@ export default function Gauth() {
     >
       <h1>Google Oauth Sign In</h1>
       <GoogleLogin
-        clientId = ""
+        clientId = "590978946618-g4eme1h14jmco7acm6lpe3afnhcetug7.apps.googleusercontent.com"
         buttonText="Sign in with Google"
         onSuccess={onGoogleSuccess}
         onFailure={onGoogleFailure}
@@ -40,7 +43,7 @@ export default function Gauth() {
         accessType="offline"
         className="google-login-button"
         cookiePolicy={'single_host_origin'}
-        redirectUri = "http://localhost:5000"
+        redirectUri = "http://localhost:3000"
       />
     </div>
   );
