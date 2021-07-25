@@ -10,7 +10,7 @@ export default function Gauth() {
     axios
       .post("/auth/google", { data: code })
       .then((res) => {
-        console.log("hey");
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -34,7 +34,7 @@ export default function Gauth() {
     >
       <h1>Google Oauth Sign In</h1>
       <GoogleLogin
-        clientId="590978946618-g4eme1h14jmco7acm6lpe3afnhcetug7.apps.googleusercontent.com"
+        clientId="944170780765-ia4ed16atb9p1tbu4748uo7rgmpvbegu.apps.googleusercontent.com"
         buttonText="Sign in with Google"
         onSuccess={onGoogleSuccess}
         onFailure={onGoogleFailure}
