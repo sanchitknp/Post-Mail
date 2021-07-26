@@ -26,18 +26,22 @@ let accessToken,refreshToken
 try{
   const transport = nodemailer.createTransport({
     service: 'gmail',
+    secure : false,
     auth: {
         type: 'OAuth2',
-        user: 'sankethgb.mec18@itbhu.ac.in',
+        user: 'e433271@gmail.com',
         clientId: '944170780765-ia4ed16atb9p1tbu4748uo7rgmpvbegu.apps.googleusercontent.com',
         clientSecret: '0662UJYs9U7ne4Q7lsgrTIui',
         refreshToken: refreshToken,
         accessToken : accessToken
+    },
+    tls: {
+      rejectUnauthorized: false
     }
 })
 const mailOptions = {
   from: "e433271@gmail.com", // sender
-   to: "sanchit0841@gmail.com", // receiver
+   to: "sankethgb.mec18@itbhu.ac.in", // receiver
    subject: "My tutorial brought me here", // Subject
    html: "<p>You have received this email using nodemailer, you are welcome ;)</p>", // html body
 };
