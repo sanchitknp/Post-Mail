@@ -7,12 +7,12 @@ export default function Gauth() {
     const code = response.code;
     console.log(code);
     axios
-      .post(`http://localhost:5000/auth/google`, code)
+      .post(`http://localhost:5000/auth/google`, {code})
       .then((res) => {
         //console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        console.log({p:err});
       });
   };
   const onGoogleFailure = () => {
