@@ -5,12 +5,11 @@ import { GoogleLogin } from "react-google-login";
 export default function Gauth() {
   const onGoogleSuccess = (response) => {
     const code = response.code;
-
-    console.log(response);
+    console.log(code);
     axios
-      .post("/auth/google", { data: code })
+      .post(`http://localhost:5000/auth/google`, code)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -39,7 +38,7 @@ export default function Gauth() {
         onSuccess={onGoogleSuccess}
         onFailure={onGoogleFailure}
         responseType="code"
-        scope="https://www.googleapis.com/auth/gmail.send"
+        scope="https://mail.google.com/"
         accessType="offline"
         className="google-login-button"
         cookiePolicy={"single_host_origin"}
