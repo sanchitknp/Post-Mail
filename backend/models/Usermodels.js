@@ -24,7 +24,6 @@ const mailSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -45,6 +44,10 @@ const userSchema = mongoose.Schema(
     },
     contacts: [contactSchema],
     mailhistory: [mailSchema],
+    refreshToken: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
