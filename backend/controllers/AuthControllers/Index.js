@@ -13,6 +13,7 @@ const AuthController = async(req, res) => {
   let profile = {};
 
   oAuth2Client.getToken(code, (err, token) => {
+
     if (err) {
       console.log(err);
     }
