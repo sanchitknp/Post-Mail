@@ -1,11 +1,25 @@
-import react from "react"
-import Gauth from "./Gauth"
-
+import react from "react";
+import Gauth from "./screens/GauthScreen";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { Container } from "react-bootstrap";
+import ComposeScreen from "./screens/ComposeScreen";
+import HomeScreen from "./screens/HomeScreen";
 function App() {
   return (
- <Gauth></Gauth>
+    <Router>
+      <Header />
+      <main className="py-3">
+        <Container>
+          <Route path="/login" component={Gauth} />
+          <Route path="/compose" component={ComposeScreen} />
+          <Route path="/" component={HomeScreen} />
+        </Container>
+      </main>
+      <Footer />
+    </Router>
   );
 }
-
 
 export default App;
