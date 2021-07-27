@@ -1,6 +1,7 @@
-import User from "../../models/Usermodels.js";
+import User from "../models/Usermodels.js";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
+
 
 export default async function sendMail(req, res) {
   const oAuth2Client = new google.auth.OAuth2(

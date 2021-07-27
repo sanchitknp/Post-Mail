@@ -5,12 +5,10 @@ import { GoogleLogin } from "react-google-login";
 export default function Gauth() {
   const onGoogleSuccess = (response) => {
     const code = response.code;
-    console.log(code);
+    console.log(response);
     axios
       .post(`http://localhost:5000/auth/google`, {
-        code: code,
-        googleId: response.googleId,
-        profile: profileObj,
+        code: code
       })
       .then((res) => {
         //console.log(res);
@@ -37,7 +35,7 @@ export default function Gauth() {
     >
       <h1>Google Oauth Sign In</h1>
       <GoogleLogin
-        clientId="944170780765-ia4ed16atb9p1tbu4748uo7rgmpvbegu.apps.googleusercontent.com"
+        clientId={process.env.REACT_APP_CLIENT_ID}
         buttonText="Sign in with Google"
         onSuccess={onGoogleSuccess}
         onFailure={onGoogleFailure}
