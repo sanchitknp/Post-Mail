@@ -24,7 +24,6 @@ export default function Gauth({ location, history }) {
 
   const onGoogleSuccess = (response) => {
     const code = response.code;
-
     dispatch(login(code));
   };
   const onGoogleFailure = () => {

@@ -2,6 +2,7 @@ import User from "../models/Usermodels.js";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 
+
 export default async function sendMail(req, res) {
   const user = await User.findOne({ googleId: req.body.from.googleId });
 
