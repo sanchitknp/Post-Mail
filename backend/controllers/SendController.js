@@ -1,4 +1,4 @@
-import User from "../../models/Usermodels.js";
+import User from "../models/Usermodels.js";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 

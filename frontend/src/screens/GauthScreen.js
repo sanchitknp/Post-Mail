@@ -24,8 +24,8 @@ export default function Gauth({ location, history }) {
 
   const onGoogleSuccess = (response) => {
     const code = response.code;
-    console.log(code);
-    dispatch(login(code, response.googleId, response.profileObj));
+
+    dispatch(login(code));
   };
   const onGoogleFailure = () => {
     console.log("boomer");

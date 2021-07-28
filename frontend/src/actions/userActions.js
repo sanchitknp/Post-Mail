@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const login = (code, googleId, profile) => async (dispatch) => {
+export const login = (code) => async (dispatch) => {
   try {
     dispatch({
       type: "USER_LOGIN_REQUEST",
@@ -11,11 +11,9 @@ export const login = (code, googleId, profile) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      "/auth/google",
+      "http://localhost:5000/auth/google",
       {
         code,
-        googleId,
-        profile,
       },
       config
     );
