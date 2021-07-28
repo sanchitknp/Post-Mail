@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import { Container } from "react-bootstrap";
 import ComposeScreen from "./screens/ComposeScreen";
 import HomeScreen from "./screens/HomeScreen";
+import HistoryScreen from "./screens/HistoryScreen";
 function App() {
   return (
     <Router>
@@ -14,7 +15,8 @@ function App() {
         <Container>
           <Route path="/login" component={Gauth} />
           <Route path="/compose" component={ComposeScreen} />
-          <Route path="/" component={HomeScreen} />
+          <Route path="/" component={HomeScreen} exact />
+          <Route path="/history" component={HistoryScreen} />
         </Container>
       </main>
       <Footer />

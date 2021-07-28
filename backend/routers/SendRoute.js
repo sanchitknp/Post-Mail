@@ -8,6 +8,6 @@ router.get("/", (req, res) => {
   res.send("Welcome to my Google Oauth express server");
 });
 
-router.post("/", SendController);
+router.put("/", SendController);
 
 export default router;

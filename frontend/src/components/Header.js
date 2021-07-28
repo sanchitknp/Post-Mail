@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Redirect } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,9 @@ function Header() {
 
   const logoutHandler = () => {
     setisLogged(false);
+
     dispatch(logout());
+    <Redirect path="/login" />;
   };
   return (
     <div>
@@ -35,7 +37,7 @@ function Header() {
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto">
+            <Nav className="ml-auto" style={{ alignContent: "right" }}>
               {isLogged ? (
                 <NavDropdown title={userInfo.name}>
                   <LinkContainer to="/profile">

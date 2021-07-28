@@ -19,6 +19,25 @@ export const userLoginReducer = function (state = { userInfo: {} }, action) {
       return state;
   }
 };
+export const sendMailReducer = function (state = {}, action) {
+  switch (action.type) {
+    case "SEND_MAIL_REQUEST": {
+      return { loading: true };
+    }
+    case "SEND_MAIL_SUCCESS": {
+      return {
+        loading: false,
+        success: true,
+        userInfo: action.payload,
+      };
+    }
+    case "SEND_MAIL_FAIL": {
+      return { loading: false, error: action.payload };
+    }
+    default:
+      return state;
+  }
+};
 
 export const userUpdaterReducer = function (state = {}, action) {
   switch (action.type) {
