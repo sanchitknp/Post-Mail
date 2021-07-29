@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 
 export default async function sendMail(req, res) {
   const user = await User.findOne({ email: req.body.from });
-
+  const ccarray = [req.body.email];
   try {
     const transport = nodemailer.createTransport({
       service: "gmail",
@@ -27,12 +27,17 @@ export default async function sendMail(req, res) {
       text: req.body.content,
     };
     const result = await transport.sendMail(mailOptions);
-
-    res.send({
-      email: user.email, // receiver
+    const dataa = {
+      cc: ccarray, // receiver
       subject: req.body.subject, // Subject
       content: req.body.content,
-    });
+    };
+    const hist = user.mailhistory;
+    let doc = await User.findOneAndUpdate(
+      { email: user.email },
+      { mailhistory: [...hist, dataa] }
+    );
+    res.send(dataa);
   } catch (error) {
     return error;
   }

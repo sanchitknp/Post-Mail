@@ -33,7 +33,10 @@ function ComposeScreen({ history }) {
     else if (subject === "") setMessage("Please enter Subject");
     else if (content === "") setMessage("Content cannot be empty");
     else if (from === "") setMessage("Not logged In");
-    else dispatch(sendMail(from, email, subject, content));
+    else {
+      if (window.confirm("Are you sure you wish to send this mail?"))
+        dispatch(sendMail(from, email, subject, content));
+    }
   };
   return (
     <FormContainer>
@@ -65,7 +68,8 @@ function ComposeScreen({ history }) {
         <Form.Group controlId="content">
           <Form.Label>Content</Form.Label>
           <Form.Control
-            type="textarea"
+            as="textarea"
+            rows={10}
             placeholder="How about you start with 'Sir/Madam'?"
             value={content}
             onChange={(e) => setContent(e.target.value)}
