@@ -8,14 +8,18 @@ export default async function sendMail(req, res) {
   try {
     const transport = nodemailer.createTransport({
       service: "gmail",
+      secure : false,
       auth: {
         type: "OAuth2",
-        user: "sankethgb.mec18@itbhu.ac.in",
+        user: user.email,
         clientId:
           "944170780765-ia4ed16atb9p1tbu4748uo7rgmpvbegu.apps.googleusercontent.com",
         clientSecret: "0662UJYs9U7ne4Q7lsgrTIui",
         refreshToken: user.refreshToken,
       },
+      tls: {
+        rejectUnauthorized: false
+      }
     });
     const mailOptions = {
       from: user.email, // sender
