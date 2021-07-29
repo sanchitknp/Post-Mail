@@ -3,7 +3,7 @@ import { google } from "googleapis";
 import nodemailer from "nodemailer";
 
 export default async function sendMail(req, res) {
-  const user = await User.findOne({ googleId: req.body.googleId });
+  const user = await User.findOne({ email: req.body.from });
 
   try {
     const transport = nodemailer.createTransport({
@@ -16,15 +16,23 @@ export default async function sendMail(req, res) {
         clientSecret: "0662UJYs9U7ne4Q7lsgrTIui",
         refreshToken: user.refreshToken,
       },
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
     const mailOptions = {
       from: user.email, // sender
-      to: req.body.to.email, // receiver
+      to: req.body.email, // receiver
       subject: req.body.subject, // Subject
       text: req.body.content,
     };
     const result = await transport.sendMail(mailOptions);
-    return result;
+
+    res.send({
+      email: user.email, // receiver
+      subject: req.body.subject, // Subject
+      content: req.body.content,
+    });
   } catch (error) {
     return error;
   }

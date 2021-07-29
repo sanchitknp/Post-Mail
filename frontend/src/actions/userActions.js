@@ -42,40 +42,37 @@ export const logout = () => (dispatch) => {
 };
 
 export const sendMail =
-  (googleId, email, subject, content) => async (dispatch) => {
+  (from, email, subject, content) => async (dispatch, getState) => {
     try {
       dispatch({
         type: "SEND_EMAIL_REQUEST",
       });
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
       const config = {
         headers: {
           "Content-type": "application/json",
         },
       };
-      const { data } = await axios.put(
+
+      const { data } = await axios.post(
         "http://localhost:5000/send",
         {
-          googleId,
+          from,
           email,
           subject,
           content,
         },
         config
       );
-
+      userInfo.mailhistory.push(data);
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
       dispatch({
         type: "SEND_EMAIL_SUCCESS",
         payload: data,
       });
-      const userInfoStorage = localStorage.getItem("userInfo")
-        ? JSON.parse(localStorage.getItem("userInfo"))
-        : null;
-      if (userInfoStorage) {
-        userInfoStorage.mailhistory.push(data);
-        localStorage.setItem("userInfo", JSON.stringify(userInfoStorage));
-      } else {
-        dispatch({ type: "SEND_EMAIL_FAIL", payload: "User not logged in" });
-      }
     } catch (error) {
       dispatch({
         type: "SEND_EMAIL_FAIL",

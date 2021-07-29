@@ -14,9 +14,12 @@ function ComposeScreen({ history }) {
   const { userInfo } = userLogin;
   const sendMailer = useSelector((state) => state.sendMail);
   const { loading, error, success } = sendMailer;
+  const [from, setFrom] = useState("");
   useEffect(() => {
-    if (userInfo) setisLogged(true);
-    else history.push("/login");
+    if (userInfo) {
+      setisLogged(true);
+      setFrom(userInfo.email);
+    } else history.push("/login");
     if (success) history.push("/history");
   }, [userInfo, isLogged, success, history]);
 
@@ -28,8 +31,9 @@ function ComposeScreen({ history }) {
     e.preventDefault();
     if (email === "") setMessage("Please enter recepient mail ID");
     else if (subject === "") setMessage("Please enter Subject");
-    else if (content === "") setMessage("Email cannot be empty");
-    else dispatch(sendMail(userInfo.googleId, email, subject, content));
+    else if (content === "") setMessage("Content cannot be empty");
+    else if (from === "") setMessage("Not logged In");
+    else dispatch(sendMail(from, email, subject, content));
   };
   return (
     <FormContainer>
@@ -66,9 +70,12 @@ function ComposeScreen({ history }) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           ></Form.Control>
+          <br></br>
         </Form.Group>
-        <Button variant="secondary" type="submit">
-          Send
+        <Button variant="primary" style={{ height: "50px" }} type="submit">
+          <center>
+            Send <span className="material-icons small">send</span>
+          </center>
         </Button>
       </Form>
     </FormContainer>

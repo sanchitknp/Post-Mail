@@ -15,7 +15,7 @@ function HomeScreen({ history }) {
   useEffect(() => {
     if (userInfo) setisLogged(true);
     else history.push("/login");
-  }, [userInfo, isLogged]);
+  }, [userInfo, isLogged, history]);
 
   return (
     <Container>
