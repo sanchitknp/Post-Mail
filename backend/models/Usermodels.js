@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+//import { INTEGER } from "sequelize/types";
 const contactSchema = mongoose.Schema({
   name: {
     type: String,
@@ -17,10 +18,26 @@ const mailSchema = mongoose.Schema(
     },
     cc: {
       type: String,
-      required: true
+      required: true,
     },
     content: {
       type: String,
+      required: true,
+    },
+    hour: {
+      type: Number,
+      required: true,
+    },
+    day: {
+      type: Number,
+      required: true,
+    },
+    minute: {
+      type: Number,
+      required: true,
+    },
+    month: {
+      type: Number,
       required: true,
     },
   },

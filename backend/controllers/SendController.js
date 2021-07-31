@@ -34,28 +34,35 @@ export default async function sendMail(req, res) {
 
     const date = new Date(2021, month, day, hours, minutes, 0);
     const job = schedule.scheduleJob(date, () => {
-      transport.sendMail(mailOptions, (err, info) => {
+      transport.sendMail(mailOptions, async (err, info) => {
         if (err) {
           console.log("error occurred", err);
         } else {
           console.log("email sent", info);
+          let hist = user.mailhistory;
+          info.accepted.forEach((mail) => {
+            hist.push({
+              cc: mail,
+              subject: req.body.subject,
+              content: req.body.content,
+              year:2021,
+              day:day,
+              minute: minutes,
+              hour:hours,
+              month: month,
+            });
+          });
+        
+          let doc = await User.findOneAndUpdate(
+            { email: user.email },
+            { mailhistory: hist }
+          );
+          res.send(hist);
         }
-      });
+      }); 
     });
-
-    let hist = user.mailhistory;
-    req.body.emails.forEach((mail) => {
-      hist.push({
-        cc: mail,
-        subject: req.body.subject,
-        content: req.body.content,
-      });
-    });
-    res.send(hist);
-    let doc = await User.findOneAndUpdate(
-      { email: user.email },
-      { mailhistory: hist }
-    );
+    
+    
   } catch (error) {
     return error;
   }
