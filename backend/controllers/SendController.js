@@ -1,5 +1,5 @@
 import User from "../models/Usermodels.js";
-import { google } from "googleapis";
+const cron = require("node-cron");
 import nodemailer from "nodemailer";
 
 export default async function sendMail(req, res) {

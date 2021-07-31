@@ -42,7 +42,7 @@ export const logout = () => (dispatch) => {
 };
 
 export const sendMail =
-  (from, emails, subject, content) => async (dispatch, getState) => {
+  (from, emails, subject, content, startDate) => async (dispatch, getState) => {
     try {
       dispatch({
         type: "SEND_EMAIL_REQUEST",
@@ -64,6 +64,7 @@ export const sendMail =
           emails,
           subject,
           content,
+          startDate,
         },
         config
       );

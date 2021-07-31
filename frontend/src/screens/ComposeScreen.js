@@ -8,7 +8,9 @@ import FormContainer from "../components/FormContainer";
 import { sendMail } from "../actions/userActions";
 import { Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
 function ComposeScreen({ history }) {
   const [isLogged, setisLogged] = useState(false);
   const dispatch = useDispatch();
@@ -29,6 +31,7 @@ function ComposeScreen({ history }) {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState(null);
   const [content, setContent] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
   const submitHandler = (e) => {
     e.preventDefault();
     if (email === "") setMessage("Please enter recepient mail ID");
@@ -36,8 +39,9 @@ function ComposeScreen({ history }) {
     else if (content === "") setMessage("Content cannot be empty");
     else if (from === "") setMessage("Not logged In");
     else {
+      console.log(startDate.getDate());
       if (window.confirm("Are you sure you wish to send this mail?"))
-        dispatch(sendMail(from, email, subject, content));
+        dispatch(sendMail(from, email, subject, content, startDate));
     }
   };
   return (
@@ -70,7 +74,17 @@ function ComposeScreen({ history }) {
               onChange={(e) => setSubject(e.target.value)}
             ></Form.Control>
           </Form.Group>
-
+          <Form.Group controlId="content">
+            <Form.Label>Date and Time</Form.Label>
+            <br />
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              showTimeSelect
+              dateFormat="Pp"
+            />
+            <br></br>
+          </Form.Group>
           <Form.Group controlId="content">
             <Form.Label>Content</Form.Label>
             <Form.Control
