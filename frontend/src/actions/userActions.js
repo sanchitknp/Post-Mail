@@ -72,7 +72,7 @@ export const sendMail =
         },
         config
       );
-      userInfo.mailhistory.push(data);
+      userInfo.mailhistory = data;
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
       dispatch({
         type: "SEND_EMAIL_SUCCESS",

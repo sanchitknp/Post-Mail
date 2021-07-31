@@ -33,7 +33,7 @@ export default async function sendMail(req, res) {
     const minutes = req.body.minutes;
 
     const date = new Date(2021, month, day, hours, minutes, 0);
-    const job = await schedule.scheduleJob(date, () => {
+    const job = schedule.scheduleJob(date, () => {
       transport.sendMail(mailOptions, (err, info) => {
         if (err) {
           console.log("error occurred", err);
@@ -51,12 +51,11 @@ export default async function sendMail(req, res) {
         content: req.body.content,
       });
     });
-
+    res.send(hist);
     let doc = await User.findOneAndUpdate(
       { email: user.email },
       { mailhistory: hist }
     );
-    console.log("success");
   } catch (error) {
     return error;
   }
