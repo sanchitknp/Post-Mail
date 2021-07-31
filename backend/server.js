@@ -13,4 +13,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/auth", AuthRoute);
 app.use("/send", SendRoute);
-app.listen(5000, console.log(`Server running on  port 5000`));
+
+const __dirname = path.resolve();
+if (process.env.MODE === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+  });
+}
+
+app.listen(
+  process.env.PORT || 5000,
+  console.log(`Server running on  port 5000`)
+);
