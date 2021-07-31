@@ -4,7 +4,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import store from "./store";
 import "./bootswatch.css";
-
+import "react-datepicker/dist/react-datepicker.css";
 ReactDOM.render(
   <Provider store={store}>
     <App />

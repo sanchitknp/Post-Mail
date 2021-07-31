@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Form, Button, Row, Col, Container } from "react-bootstrap";
+
+import { Form, Button, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loading from "../components/Loading";
@@ -8,7 +8,9 @@ import FormContainer from "../components/FormContainer";
 import { sendMail } from "../actions/userActions";
 import * as XLSX from "xlsx";
 import { LinkContainer } from "react-router-bootstrap";
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
 function ExcelScreen({ history }) {
   const [isLogged, setisLogged] = useState(false);
   const dispatch = useDispatch();
@@ -31,9 +33,12 @@ function ExcelScreen({ history }) {
   const [message, setMessage] = useState(null);
   const [variant, setVariant] = useState("danger");
   const [content, setContent] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
   const submitHandler = (e) => {
     e.preventDefault();
-    if (emails.length == 0) {
+    const now = new Date();
+
+    if (emails.length === 0) {
       setMessage("Please upload file");
       setVariant("danger");
     } else if (subject === "") {
@@ -45,7 +50,24 @@ function ExcelScreen({ history }) {
     } else if (from === "") {
       setMessage("Not logged In");
       setVariant("danger");
-    } else dispatch(sendMail(from, emails, subject, content));
+    } else if (startDate < now) {
+      setMessage("Enter valid date time");
+      setVariant("danger");
+    } else {
+      if (window.confirm("Are you sure you wish to send this mail?"))
+        dispatch(
+          sendMail(
+            from,
+            emails,
+            subject,
+            content,
+            startDate.getDate(),
+            startDate.getMonth(),
+            startDate.getHours(),
+            startDate.getMinutes()
+          )
+        );
+    }
   };
 
   const readxl = (file) => {
@@ -101,7 +123,19 @@ function ExcelScreen({ history }) {
               onChange={(e) => setSubject(e.target.value)}
             ></Form.Control>
           </Form.Group>
-
+          <Form.Group controlId="datetime">
+            <Form.Label>Date and Time</Form.Label>
+            <br />
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              minDate={new Date()}
+              showTimeInput
+              dateFormat="Pp"
+              shouldCloseOnSelect={false}
+            />
+            <br></br>
+          </Form.Group>
           <Form.Group controlId="content">
             <Form.Label>Content</Form.Label>
             <Form.Control
@@ -112,13 +146,14 @@ function ExcelScreen({ history }) {
               onChange={(e) => setContent(e.target.value)}
             ></Form.Control>
             <br />
+
             <Form.Group controlId="file">
               <Form.Label>
                 Upload file (.xlsx file with email IDs in column A)
               </Form.Label>
               <br />
               <Form.Control
-                className="btn btn-primary"
+                className="btn btn-secondary"
                 type="file"
                 onChange={(e) => readxl(e.target.files[0])}
               ></Form.Control>

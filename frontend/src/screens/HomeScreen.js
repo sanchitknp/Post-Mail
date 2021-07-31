@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import Message from "../components/Message";
-import Loading from "../components/Loading";
+
+import { Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
+
 import { LinkContainer } from "react-router-bootstrap";
 import { Container } from "react-bootstrap";
 function HomeScreen({ history }) {
@@ -19,12 +18,24 @@ function HomeScreen({ history }) {
 
   return (
     <Container>
-      <LinkContainer to="/compose">
-        <Button variant="dark">Compose Mail</Button>
-      </LinkContainer>
-      <LinkContainer to="/upload">
-        <Button variant="dark">Compose Mail (excel)</Button>
-      </LinkContainer>
+      <center>
+        <hr></hr>
+        <br></br>
+        <br></br>
+        <LinkContainer to="/compose">
+          <Button variant="dark">Compose Mail</Button>
+        </LinkContainer>
+        <br />
+        <br></br>
+        <LinkContainer to="/upload">
+          <Button variant="dark">Compose Mail (excel)</Button>
+        </LinkContainer>
+        <br></br>
+        <br></br>
+        <LinkContainer to="/history">
+          <Button variant="dark">History</Button>
+        </LinkContainer>
+      </center>
     </Container>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+
+import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loading from "../components/Loading";
@@ -34,14 +34,26 @@ function ComposeScreen({ history }) {
   const [startDate, setStartDate] = useState(new Date());
   const submitHandler = (e) => {
     e.preventDefault();
+    const now = new Date();
     if (email === "") setMessage("Please enter recepient mail ID");
     else if (subject === "") setMessage("Please enter Subject");
     else if (content === "") setMessage("Content cannot be empty");
     else if (from === "") setMessage("Not logged In");
+    else if (startDate < now) setMessage("Enter valid date time");
     else {
-      console.log(startDate.getDate());
       if (window.confirm("Are you sure you wish to send this mail?"))
-        dispatch(sendMail(from, email, subject, content, startDate));
+        dispatch(
+          sendMail(
+            from,
+            email,
+            subject,
+            content,
+            startDate.getDate(),
+            startDate.getMonth(),
+            startDate.getHours(),
+            startDate.getMinutes()
+          )
+        );
     }
   };
   return (
@@ -74,14 +86,16 @@ function ComposeScreen({ history }) {
               onChange={(e) => setSubject(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId="content">
+          <Form.Group controlId="datetime">
             <Form.Label>Date and Time</Form.Label>
             <br />
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
-              showTimeSelect
+              minDate={new Date()}
+              showTimeInput
               dateFormat="Pp"
+              shouldCloseOnSelect={false}
             />
             <br></br>
           </Form.Group>

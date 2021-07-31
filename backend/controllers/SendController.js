@@ -1,12 +1,11 @@
 import User from "../models/Usermodels.js";
-const cron = require("node-cron");
+import schedule from "node-schedule";
 import nodemailer from "nodemailer";
 
 export default async function sendMail(req, res) {
   const user = await User.findOne({ email: req.body.from });
-  console.log(req.body.emails)
+
   try {
-    console.log(req.body.emails);
     const transport = nodemailer.createTransport({
       service: "gmail",
       secure: false,
@@ -28,19 +27,36 @@ export default async function sendMail(req, res) {
       subject: req.body.subject, // Subject
       text: req.body.content,
     };
-    const result = await transport.sendMail(mailOptions);
-    
-    let hist = user.mailhistory;
-    (req.body.emails).forEach(mail => {
-      hist.push({cc:mail,subject:req.body.subject,content:req.body.content})
+    const day = req.body.date;
+    const month = req.body.month;
+    const hours = req.body.hours;
+    const minutes = req.body.minutes;
+
+    const date = new Date(2021, month, day, hours, minutes, 0);
+    const job = await schedule.scheduleJob(date, () => {
+      transport.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.log("error occurred", err);
+        } else {
+          console.log("email sent", info);
+        }
+      });
     });
 
+    let hist = user.mailhistory;
+    req.body.emails.forEach((mail) => {
+      hist.push({
+        cc: mail,
+        subject: req.body.subject,
+        content: req.body.content,
+      });
+    });
 
     let doc = await User.findOneAndUpdate(
       { email: user.email },
-      {mailhistory: hist }
+      { mailhistory: hist }
     );
-  console.log("success")
+    console.log("success");
   } catch (error) {
     return error;
   }
