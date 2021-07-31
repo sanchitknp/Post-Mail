@@ -15,7 +15,10 @@ const mailSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    cc: [contactSchema],
+    cc: {
+      type: String,
+      required: true
+    },
     content: {
       type: String,
       required: true,
