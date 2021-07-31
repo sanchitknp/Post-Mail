@@ -22,6 +22,9 @@ function HomeScreen({ history }) {
       <LinkContainer to="/compose">
         <Button variant="dark">Compose Mail</Button>
       </LinkContainer>
+      <LinkContainer to="/upload">
+        <Button variant="dark">Compose Mail (excel)</Button>
+      </LinkContainer>
     </Container>
   );
 }

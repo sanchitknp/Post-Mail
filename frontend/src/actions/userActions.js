@@ -42,7 +42,7 @@ export const logout = () => (dispatch) => {
 };
 
 export const sendMail =
-  (from, email, subject, content) => async (dispatch, getState) => {
+  (from, emails, subject, content) => async (dispatch, getState) => {
     try {
       dispatch({
         type: "SEND_EMAIL_REQUEST",
@@ -61,7 +61,7 @@ export const sendMail =
         "http://localhost:5000/send",
         {
           from,
-          email,
+          emails,
           subject,
           content,
         },

@@ -33,16 +33,13 @@ function Header() {
       >
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>TikTalk</Navbar.Brand>
+            <Navbar.Brand>Kabootar</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto" style={{ alignContent: "right" }}>
+            <Nav className="ml-auto nav-right justify-content-end">
               {isLogged ? (
                 <NavDropdown title={userInfo.name}>
-                  <LinkContainer to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
                   </NavDropdown.Item>
@@ -50,7 +47,6 @@ function Header() {
               ) : (
                 <LinkContainer to="/login">
                   <Nav.Link>
-                    <i className="fas fa-user"></i>
                     <b> </b>Login
                   </Nav.Link>
                 </LinkContainer>

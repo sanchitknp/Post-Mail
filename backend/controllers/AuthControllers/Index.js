@@ -14,6 +14,7 @@ const AuthController = async (req, res) => {
 
   let jwtToken;
   let refreshToken;
+  let payload;
 
   oAuth2Client.getToken(code, (err, token) => {
     if (err) {
@@ -27,92 +28,62 @@ const AuthController = async (req, res) => {
 
       const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
       async function verify() {
-        console.log(jwtToken);
-        const ticket = await client.verifyIdToken({
-          idToken: jwtToken,
-          audience: process.env.GOOGLE_CLIENT_ID,
-        });
-        const payload = ticket.getPayload();
-
-        const user = await User.findOne({ googleId: payload.sub });
-        if (user) {
-          if (refreshToken) {
-            user.refreshToken = refreshToken;
-          }
-          const updateUserData = await user.save();
-          console.log("user data updated");
-          res.send({
-            name: user.name,
-            id: user._id,
-            email: user.email,
-            contacts: user.contacts,
-            mailhistory: user.mailhistory,
+        try {
+          console.log(jwtToken);
+          const ticket = await client.verifyIdToken({
+            idToken: jwtToken,
+            audience: process.env.GOOGLE_CLIENT_ID,
           });
-        } else {
-          User.create(
-            {
-              name: payload.name,
-              email: payload.email,
-              googleId: payload.sub,
-              refreshToken: refreshToken,
-            },
-            (err, user) => {
-              if (err) {
-                console.log(err);
-              } else {
-                console.log("new user created successfully in database");
-                res.send({
-                  name: user.name,
-                  id: user._id,
-                  email: user.email,
-                  contacts: user.contacts,
-                  mailhistory: user.mailhistory,
-                });
-              }
+
+          payload = ticket.getPayload();
+          console.log(payload);
+
+          const user = await User.findOne({ googleId: payload.sub });
+          if (user) {
+            if (refreshToken) {
+              user.refreshToken = refreshToken;
             }
-          );
+            const updateUserData = await user.save();
+            console.log("user data updated");
+            res.send({
+              name: user.name,
+              id: user._id,
+              email: user.email,
+              contacts: user.contacts,
+              mailhistory: user.mailhistory,
+            });
+          } else {
+            User.create(
+              {
+                name: payload.name,
+                email: payload.email,
+                googleId: payload.sub,
+                refreshToken: refreshToken,
+              },
+              (err, user) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log("new user created successfully in database");
+                  res.send({
+                    name: user.name,
+                    id: user._id,
+                    email: user.email,
+                    contacts: user.contacts,
+                    mailhistory: user.mailhistory,
+                  });
+                }
+              }
+            );
+          }
+        } catch {
+          console.log("error");
         }
       }
 
-      verify().catch(console.error);
+      verify().catch(console.log);
     }
   });
-
-  /*
-  async function sendMail() {
-    try {
-      const transport = nodemailer.createTransport({
-        service: "gmail",
-        secure : false,
-        auth: {
-          type: "OAuth2",
-          user: "sankethgb.mec18@itbhu.ac.in",
-          clientId:
-            "944170780765-ia4ed16atb9p1tbu4748uo7rgmpvbegu.apps.googleusercontent.com",
-          clientSecret: "0662UJYs9U7ne4Q7lsgrTIui",
-          refreshToken: refreshToken,
-          accessToken: accessToken,
-        }, tls: {
-          rejectUnauthorized: false
-        }
-      });
-      const mailOptions = {
-        from: "e433271@gmail.com", // sender
-        to: "sanchit0841@gmail.com", // receiver
-        subject: "My tutorial brought me here", // Subject
-        html: "<p>You have received this email using nodemailer, you are welcome ;)</p>", // html body
-      };
-      const result = await transport.sendMail(mailOptions);
-      return result;
-    } catch (error) {
-      return error;
-    }
-  }
-  sendMail()
-    .then((result) => console.log(result))
-    .catch((error) => console.log(error));
-
-  res.send("Mail sent"); */
 };
 
 export default AuthController;
