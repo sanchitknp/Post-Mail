@@ -16,6 +16,7 @@ app.use("/auth", AuthRoute);
 app.use("/send", SendRoute);
 
 const __dirname = path.resolve();
+
 if (process.env.MODE === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));
   app.get("*", (req, res) => {
