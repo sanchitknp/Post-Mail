@@ -8,7 +8,7 @@ const AuthController = async (req, res) => {
   const oAuth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    "http://localhost:3000"
+    "https://kabootarmail.herokuapp.com/"
   );
   let code = req.body.code;
 
