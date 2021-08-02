@@ -11,7 +11,7 @@ export const login = (code) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      "https://kabootarmail.herokuapp.com/auth/google",
+      "/auth/google",
       {
         code,
       },
@@ -59,7 +59,7 @@ export const sendMail =
       };
 
       const { data } = await axios.post(
-        "http://kabootarmail.herokuapp.com/send",
+        "/send",
         {
           from,
           emails,
