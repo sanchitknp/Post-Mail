@@ -54,7 +54,7 @@ export default function Gauth({ location, history }) {
           accessType="offline"
           className="google-login-button"
           cookiePolicy={"single_host_origin"}
-          redirectUri="https://kabootarmail.herokuapp.com"
+          redirectUri="http://localhost:3000"
         />
       </div>
     </Container>
